@@ -1,4 +1,4 @@
-package com.example.easytutomusicapp;
+package com.example.scheduledcarillon;
 
 import androidx.appcompat.app.AppCompatActivity;
 

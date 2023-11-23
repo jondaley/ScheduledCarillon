@@ -1,4 +1,4 @@
-package com.example.easytutomusicapp;
+package com.example.scheduledcarillon;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         noMusicTextView = findViewById(R.id.no_songs_text);
 
-        if(checkPermission() == false){
+        if(!checkPermission()){
             requestPermission();
             return;
         }
@@ -45,9 +45,11 @@ public class MainActivity extends AppCompatActivity {
 
         String selection = MediaStore.Audio.Media.IS_MUSIC +" != 0";
 
-        Cursor cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,projection,selection,null,null);
+        Cursor cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                projection,selection,null,null);
+
         while(cursor.moveToNext()){
-            AudioModel songData = new AudioModel(cursor.getString(1),cursor.getString(0),cursor.getString(2));
+            AudioModel songData = new AudioModel(cursor.getString(1),cursor.getString(0),cursor.getString(2), Seasons.name.GENERAL);
             if(new File(songData.getPath()).exists())
                 songsList.add(songData);
         }
@@ -64,17 +66,13 @@ public class MainActivity extends AppCompatActivity {
 
     boolean checkPermission(){
         int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
-        if(result == PackageManager.PERMISSION_GRANTED){
-            return true;
-        }else{
-            return false;
-        }
+        return result == PackageManager.PERMISSION_GRANTED;
     }
 
     void requestPermission(){
-        if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE)){
+        if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,Manifest.permission.READ_EXTERNAL_STORAGE))
             Toast.makeText(MainActivity.this,"READ PERMISSION IS REQUIRED,PLEASE ALLOW FROM SETTTINGS",Toast.LENGTH_SHORT).show();
-        }else
+        else
             ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},123);
     }
 

@@ -1,6 +1,7 @@
-package com.example.easytutomusicapp;
+package com.example.scheduledcarillon;
 
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnSeekCompleteListener;
 
 public class MyMediaPlayer {
     static MediaPlayer instance;
@@ -12,5 +13,6 @@ public class MyMediaPlayer {
         return instance;
     }
 
-    public static int currentIndex = -1;
+    public static int currentIndex = 0;
+
 }

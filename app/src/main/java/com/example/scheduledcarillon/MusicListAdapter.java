@@ -1,4 +1,4 @@
-package com.example.easytutomusicapp;
+package com.example.scheduledcarillon;
 
 import android.content.Context;
 import android.content.Intent;
@@ -56,6 +56,9 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
             }
         });
 
+        if(position != -1){
+            holder.itemView.performClick();
+        }
     }
 
     @Override

@@ -20,5 +20,9 @@
     </application>
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+   <!--
+   Newer versions of Android will want this permission instead, I think
+   <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
+   -->
 </manifest>
