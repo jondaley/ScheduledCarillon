@@ -28,14 +28,28 @@ public class Alarm extends BroadcastReceiver {
         UNKNOWN
     }
 
-    static DateFormat dateFormat = new SimpleDateFormat("MM/dd//yyyy HH:mm:ss");
+    static DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
     // set this to true to make times shorter so you don't have to wait as long
     protected static boolean debug = true;
 
     protected static MainActivity activity = null;
 
-    public static void setActivity(MainActivity ma){
-        activity = ma;
+    public static void setActivity(MainActivity ma){ activity = ma; }
+
+    protected static long nextSundayTime = -1;
+
+    protected static long nextDailyTime = -1;
+
+    public static String getNextScheduledPlayTime() {
+        if(nextSundayTime == -1 && nextDailyTime == -1)
+            return "Nothing scheduled yet";
+        if(nextSundayTime == -1)
+            return dateFormat.format(nextDailyTime);
+        if(nextDailyTime == -1)
+            return dateFormat.format(nextSundayTime);
+        if(nextSundayTime < nextDailyTime)
+            return dateFormat.format(nextSundayTime);;
+        return dateFormat.format(nextDailyTime);
     }
 
     @Override
@@ -50,15 +64,17 @@ public class Alarm extends BroadcastReceiver {
             Log.i("myMsg", "Operation is: "+ newString);
             switch(getAlarmType(newString)) {
                 case DAILY_START:
+                    scheduleStopAlarm();
+                    scheduleDailyAlarm();
+                    activity.setResourcesWithMusic(false);
                     activity.playMusic();
-                    scheduleStopAlarm(context);
-                    scheduleDailyAlarm(context);
                     break;
 
                 case SUNDAY_START:
+                    scheduleStopAlarm();
+                    scheduleSundayAlarm();
+                    activity.setResourcesWithMusic(false);
                     activity.playMusic();
-                    scheduleStopAlarm(context);
-                    scheduleSundayAlarm(context);
                     break;
 
                 case STOP:
@@ -108,13 +124,12 @@ public class Alarm extends BroadcastReceiver {
         return -1;
     }
 
-    public static void scheduleDailyAlarm(Context pkgContext) {
-        AlarmManager alarmManager = (AlarmManager) pkgContext.getSystemService(ALARM_SERVICE);
-        Intent startIntent = new Intent(pkgContext, Alarm.class);
+    public static void scheduleDailyAlarm() {
+        AlarmManager alarmManager = (AlarmManager) activity.getSystemService(ALARM_SERVICE);
+        Intent startIntent = new Intent(activity, Alarm.class);
         startIntent.putExtra("operation", getAlarmName(AlarmType.DAILY_START));
 
         Calendar cal = new GregorianCalendar();
-
 
         if(debug) {
             cal.setTimeInMillis(cal.getTimeInMillis() + 5000);
@@ -129,19 +144,20 @@ public class Alarm extends BroadcastReceiver {
         // if it is already after 4PM, set the timer for tomorrow
         if(cal.getTimeInMillis() < System.currentTimeMillis())
             cal.add(Calendar.DAY_OF_MONTH, 1);
+        nextDailyTime = cal.getTimeInMillis();
 
-        Log.i("myMsg", "Next 4PM:" + dateFormat.format(cal.getTime()));
+        Log.i("myMsg", "Next 4PM:" + dateFormat.format(nextDailyTime));
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(pkgContext, getAlarmType(AlarmType.DAILY_START),
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(activity, getAlarmType(AlarmType.DAILY_START),
                 startIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        AlarmManager.AlarmClockInfo ac = new AlarmManager.AlarmClockInfo(cal.getTimeInMillis(), null);
+        AlarmManager.AlarmClockInfo ac = new AlarmManager.AlarmClockInfo(nextDailyTime, null);
         alarmManager.setAlarmClock(ac, pendingIntent);
     }
 
-    public static void scheduleSundayAlarm(Context pkgContext) {
-        AlarmManager alarmManager = (AlarmManager) pkgContext.getSystemService(ALARM_SERVICE);
-        Intent startIntent = new Intent(pkgContext, Alarm.class);
+    public static void scheduleSundayAlarm() {
+        AlarmManager alarmManager = (AlarmManager) activity.getSystemService(ALARM_SERVICE);
+        Intent startIntent = new Intent(activity, Alarm.class);
         startIntent.putExtra("operation", getAlarmName(AlarmType.SUNDAY_START));
 
         Calendar cal = nextSunday();
@@ -157,19 +173,19 @@ public class Alarm extends BroadcastReceiver {
             cal.set(Calendar.SECOND, 0);
             cal.set(Calendar.MILLISECOND, 0);
         }
+        nextSundayTime = cal.getTimeInMillis();
+        Log.i("myMsg", "Next Sunday:" + dateFormat.format(nextSundayTime));
 
-        Log.i("myMsg", "Next Sunday:" + dateFormat.format(cal.getTime()));
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(pkgContext, getAlarmType(AlarmType.SUNDAY_START),
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(activity, getAlarmType(AlarmType.SUNDAY_START),
                 startIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        AlarmManager.AlarmClockInfo ac = new AlarmManager.AlarmClockInfo(cal.getTimeInMillis(), null);
+        AlarmManager.AlarmClockInfo ac = new AlarmManager.AlarmClockInfo(nextSundayTime, null);
         alarmManager.setAlarmClock(ac, pendingIntent);
     }
 
-    protected static void scheduleStopAlarm(Context pkgContext) {
-        AlarmManager alarmManager = (AlarmManager) pkgContext.getSystemService(ALARM_SERVICE);
-        Intent stopIntent = new Intent(pkgContext, Alarm.class);
+    protected static void scheduleStopAlarm() {
+        AlarmManager alarmManager = (AlarmManager) activity.getSystemService(ALARM_SERVICE);
+        Intent stopIntent = new Intent(activity, Alarm.class);
         stopIntent.putExtra("operation", getAlarmName(AlarmType.STOP));
 
         // we play for 15 minutes by default
@@ -181,7 +197,7 @@ public class Alarm extends BroadcastReceiver {
 
         Log.i("myMsg", "Set Stop:" + dateFormat.format(delay));
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(pkgContext, getAlarmType(AlarmType.STOP),
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(activity, getAlarmType(AlarmType.STOP),
                 stopIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager.AlarmClockInfo ac = new AlarmManager.AlarmClockInfo(delay, null);

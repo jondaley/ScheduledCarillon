@@ -15,8 +15,6 @@ public class MyMediaPlayer{
         return instance;
     }
 
-    public static int currentIndex = -1;
-
     public static boolean play(AudioModel currentSong){
         instance.reset();
         try{

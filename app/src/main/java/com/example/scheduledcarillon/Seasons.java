@@ -1,6 +1,6 @@
 package com.example.scheduledcarillon;
 
-public final class  Seasons {
+public class Seasons {
 
     public enum name {
         CHRISTMAS,
@@ -25,5 +25,18 @@ public final class  Seasons {
         if(filename.contains("easter/"))
             return name.EASTER;
         return name.GENERAL;
+    }
+
+    public String getSeasonName(Seasons.name name){
+        switch(name){
+            case CHRISTMAS:
+                return "Christmas";
+            case EASTER:
+                return "Easter";
+            case GENERAL:
+                return "Regular";
+            default:
+                return "Unknown season";
+        }
     }
 }

@@ -8,16 +8,6 @@
     android:background="@color/gray">
 
     <TextView
-        android:id="@+id/app_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="Now Playing"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:textStyle="bold" />
-
-    <TextView
         android:id="@+id/song_title"
         android:layout_width="match_parent"
         android:layout_height="128dp"
@@ -26,8 +16,7 @@
         android:padding="5dp"
         android:text="Title of the song"
         android:textColor="@color/black"
-        android:textSize="30sp"
-        android:layout_below="@id/app_title"/>
+        android:textSize="30sp"/>
 
     <TextView
         android:id="@+id/season_title"
@@ -54,14 +43,6 @@
         android:textSize="20sp"
         android:layout_below="@id/season_title"
         />
-
-    <ImageView
-        android:id="@+id/refresh"
-        android:layout_width="97dp"
-        android:layout_height="101dp"
-        android:layout_below="@id/timers"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/music_icon" />
 
     <RelativeLayout
         android:layout_width="match_parent"
