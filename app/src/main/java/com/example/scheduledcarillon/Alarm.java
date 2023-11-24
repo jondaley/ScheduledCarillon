@@ -132,7 +132,7 @@ public class Alarm extends BroadcastReceiver {
         Calendar cal = new GregorianCalendar();
 
         if(debug) {
-            cal.setTimeInMillis(cal.getTimeInMillis() + 5000);
+            cal.setTimeInMillis(System.currentTimeMillis() + 1 * 60 * 1000);
         }
         else {
             // Get the next 4PM timer
@@ -164,7 +164,7 @@ public class Alarm extends BroadcastReceiver {
 
         if(debug) {
             // "Sunday" will occur in 1 minutes
-            cal.setTimeInMillis(cal.getTimeInMillis() + 1 * 60 * 1000);
+            cal.setTimeInMillis(System.currentTimeMillis() + 25 * 1000);
         }
         else {
             // Get the next Sunday morning timer
