@@ -1,5 +1,6 @@
 package com.example.scheduledcarillon;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.ViewHolder>{
-
     ArrayList<AudioModel> songsList;
     Context context;
 
@@ -31,34 +31,29 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
     }
 
     @Override
-    public void onBindViewHolder( MusicListAdapter.ViewHolder holder, int position) {
+    @SuppressLint("RecyclerView")
+    public void onBindViewHolder(MusicListAdapter.ViewHolder holder, int position) {
         AudioModel songData = songsList.get(position);
         holder.titleTextView.setText(songData.getTitle());
 
-        if(MyMediaPlayer.currentIndex==position){
+        if(MyMediaPlayer.currentIndex == position)
             holder.titleTextView.setTextColor(Color.parseColor("#FF0000"));
-        }else{
+        else
             holder.titleTextView.setTextColor(Color.parseColor("#000000"));
-        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //navigate to another acitivty
-
+                //navigate to another activity
                 MyMediaPlayer.getInstance().reset();
                 MyMediaPlayer.currentIndex = position;
                 Intent intent = new Intent(context,MusicPlayerActivity.class);
                 intent.putExtra("LIST",songsList);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
-
             }
         });
 
-        if(position != -1){
-            holder.itemView.performClick();
-        }
     }
 
     @Override
@@ -67,7 +62,6 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-
         TextView titleTextView;
         ImageView iconImageView;
         public ViewHolder(View itemView) {
