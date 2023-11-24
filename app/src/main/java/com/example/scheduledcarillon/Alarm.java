@@ -32,10 +32,10 @@ public class Alarm extends BroadcastReceiver {
     // set this to true to make times shorter so you don't have to wait as long
     protected static boolean debug = true;
 
-    protected static MusicPlayerActivity musicPlayerActivity = null;
+    protected static MainActivity activity = null;
 
-    public static void setMusicPlayerActivity(MusicPlayerActivity mpa){
-        musicPlayerActivity = mpa;
+    public static void setActivity(MainActivity ma){
+        activity = ma;
     }
 
     @Override
@@ -50,19 +50,19 @@ public class Alarm extends BroadcastReceiver {
             Log.i("myMsg", "Operation is: "+ newString);
             switch(getAlarmType(newString)) {
                 case DAILY_START:
-                    musicPlayerActivity.playMusic();
+                    activity.playMusic();
                     scheduleStopAlarm(context);
                     scheduleDailyAlarm(context);
                     break;
 
                 case SUNDAY_START:
-                    musicPlayerActivity.playMusic();
+                    activity.playMusic();
                     scheduleStopAlarm(context);
                     scheduleSundayAlarm(context);
                     break;
 
                 case STOP:
-                    musicPlayerActivity.stop(false);
+                    activity.stop(false);
                     break;
 
                 case UNKNOWN:

@@ -17,14 +17,12 @@ public class MyMediaPlayer{
 
     public static int currentIndex = -1;
 
-    public static boolean play(AudioModel currentSong, SeekBar seekBar){
+    public static boolean play(AudioModel currentSong){
         instance.reset();
         try{
             instance.setDataSource(currentSong.getPath());
             instance.prepare();
             instance.start();
-            seekBar.setProgress(0);
-            seekBar.setMax(instance.getDuration());
             return true;
         }
         catch (IOException e){

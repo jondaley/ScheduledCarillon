@@ -18,4 +18,12 @@ public final class  Seasons {
     public name getCurrentSeason() {
         return currentSeason;
     }
+
+    public static name checkFilename(String filename){
+        if(filename.contains("christmas/"))
+            return name.CHRISTMAS;
+        if(filename.contains("easter/"))
+            return name.EASTER;
+        return name.GENERAL;
+    }
 }

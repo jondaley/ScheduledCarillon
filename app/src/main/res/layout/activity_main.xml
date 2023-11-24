@@ -4,33 +4,92 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/gray">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/songs_text"
-        android:textColor="@color/black"
-        android:text="SONGS"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:padding="10dp"
-        android:layout_centerHorizontal="true"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/no_songs_text"
-        android:text="NO SONGS FOUND"
-        android:layout_centerInParent="true"
-        android:visibility="gone"/>
-
-    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/app_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/recycler_view"
-        android:layout_below="@id/songs_text"/>
+        android:padding="10dp"
+        android:text="Now Playing"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/song_title"
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:padding="5dp"
+        android:text="Title of the song"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:layout_below="@id/app_title"/>
 
+    <TextView
+        android:id="@+id/season_title"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:singleLine="true"
+        android:text="Current Season"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_below="@id/song_title"
+        />
 
+    <TextView
+        android:id="@+id/timers"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:singleLine="true"
+        android:text="Time until next play"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_below="@id/season_title"
+        />
+
+    <ImageView
+        android:id="@+id/refresh"
+        android:layout_width="97dp"
+        android:layout_height="101dp"
+        android:layout_below="@id/timers"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/music_icon" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="50dp">
+
+        <TextView
+            android:id="@+id/current_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="0:00"
+            android:textSize="30sp"
+            android:textColor="@color/black" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/total_time"
+            android:text="0:00"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/black"
+            android:textSize="30sp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_pause_circle_outline_24"
+            android:layout_centerInParent="true"
+            android:id="@+id/pause_play"/>
+    </RelativeLayout>
 </RelativeLayout>
