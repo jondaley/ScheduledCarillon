@@ -30,7 +30,7 @@ public class Alarm extends BroadcastReceiver {
 
     static DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
     // set this to true to make times shorter so you don't have to wait as long
-    protected static boolean debug = true;
+    protected static boolean debug = false;
 
     protected static MainActivity activity = null;
 
