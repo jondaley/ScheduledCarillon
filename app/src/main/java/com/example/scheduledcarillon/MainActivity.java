@@ -3,8 +3,6 @@ package com.example.scheduledcarillon;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -14,7 +12,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,12 +25,11 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<AudioModel> songsList = new ArrayList<>();
     TextView titleTv,currentTimeTv,totalTimeTv,seasonTv, timerTv;
-    ImageView pauseBtn;
+    ImageView scheduleBtn, playBtn;
     AudioModel currentSong;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
     Seasons seasons = new Seasons();
-    boolean isPlaying = false;
-    boolean isDisabled = false;
+    boolean isPlaying = false, isDisabled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
         titleTv = findViewById(R.id.song_title);
         currentTimeTv = findViewById(R.id.current_time);
         totalTimeTv = findViewById(R.id.total_time);
-        pauseBtn = findViewById(R.id.pause_play);
+        scheduleBtn = findViewById(R.id.pause_schedule_play);
+        playBtn = findViewById(R.id.play_immediately);
         seasonTv = findViewById(R.id.season_title);
         timerTv = findViewById(R.id.timers);
 
@@ -84,7 +81,8 @@ public class MainActivity extends AppCompatActivity {
             Alarm.scheduleDailyAlarm();
             Alarm.scheduleSundayAlarm();
             setResourcesWithMusic(true);
-            pauseBtn.setOnClickListener(v->pause_play());
+            scheduleBtn.setOnClickListener(v-> pause_schedule_play());
+            playBtn.setOnClickListener(v-> immediate_play());
         }
 
        MainActivity.this.runOnUiThread(new Runnable(){
@@ -166,18 +164,25 @@ public class MainActivity extends AppCompatActivity {
         playMusic();
     }
 
-    private void pause_play(){
+    private void pause_schedule_play(){
         isDisabled = !isDisabled;
         if(isDisabled) {
             mediaPlayer.stop();
-            pauseBtn.setImageResource(R.drawable.ic_baseline_play_circle_outline_24);
+            scheduleBtn.setImageResource(R.drawable.ic_baseline_schedule_circle_outline_24);
             setResourcesWithMusic(false);
         }
         else {
-            pauseBtn.setImageResource(R.drawable.ic_baseline_pause_circle_outline_24);
+            scheduleBtn.setImageResource(R.drawable.ic_baseline_pause_circle_outline_24);
         }
     }
 
+    private void immediate_play(){
+        isDisabled = false;
+        mediaPlayer.stop();
+        scheduleBtn.setImageResource(R.drawable.ic_baseline_pause_circle_outline_24);
+        setResourcesWithMusic(false);
+        playMusic();
+    }
     public void stop(boolean bImmediate){
         // stop playing when the song finishes
         isPlaying = false;

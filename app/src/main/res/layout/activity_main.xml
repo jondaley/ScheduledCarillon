@@ -17,6 +17,20 @@
         android:textColor="@color/black"
         android:textSize="30sp"/>
 
+
+    <TextView
+        android:id="@+id/timers"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:singleLine="true"
+        android:text="Time until next play"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_below="@id/song_title"/>
+
+
     <TextView
         android:id="@+id/season_title"
         android:layout_width="match_parent"
@@ -27,16 +41,16 @@
         android:text="Current Season"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:layout_below="@id/song_title"/>
+        android:layout_below="@id/timers"/>
 
     <TextView
-        android:id="@+id/timers"
+        android:id="@+id/song_season_title"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_centerHorizontal="true"
         android:padding="5dp"
         android:singleLine="true"
-        android:text="Time until next play"
+        android:text="Song Season"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:layout_below="@id/season_title"/>
@@ -63,12 +77,23 @@
             android:layout_alignParentEnd="true"
             android:textColor="@color/black"
             android:textSize="30sp"/>
-        <ImageView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="125dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_pause_circle_outline_24"
-            android:layout_centerInParent="true"
-            android:id="@+id/pause_play"
-            android:contentDescription="Play/Pause"/>
+            android:layout_centerInParent="true">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_pause_circle_outline_24"
+                android:id="@+id/pause_schedule_play"
+                android:contentDescription="Play/Pause"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_play_circle_outline_24"
+                android:layout_toRightOf="@id/pause_schedule_play"
+                android:id="@+id/play_immediately"
+                android:contentDescription="Play Immediately"/>
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>
