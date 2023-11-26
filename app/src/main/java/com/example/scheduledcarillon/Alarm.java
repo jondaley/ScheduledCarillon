@@ -54,14 +54,14 @@ public class Alarm extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i("myMsg", System.currentTimeMillis() + " in AlarmReceiver onReceive()");
+        Log.i(Globals.LOG_TAG, System.currentTimeMillis() + " in AlarmReceiver onReceive()");
         String newString;
         Bundle extras = intent.getExtras();
         if(extras == null)
             newString= null;
         else{
             newString = extras.getString("operation");
-            Log.i("myMsg", "Operation is: "+ newString);
+            Log.i(Globals.LOG_TAG, "Operation is: "+ newString);
             switch(getAlarmType(newString)) {
                 case DAILY_START:
                     scheduleStopAlarm();
@@ -146,7 +146,7 @@ public class Alarm extends BroadcastReceiver {
             cal.add(Calendar.DAY_OF_MONTH, 1);
         nextDailyTime = cal.getTimeInMillis();
 
-        Log.i("myMsg", "Next 4PM:" + dateFormat.format(nextDailyTime));
+        Log.i(Globals.LOG_TAG, "Next 4PM:" + dateFormat.format(nextDailyTime));
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(activity, getAlarmType(AlarmType.DAILY_START),
                 startIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -174,7 +174,7 @@ public class Alarm extends BroadcastReceiver {
             cal.set(Calendar.MILLISECOND, 0);
         }
         nextSundayTime = cal.getTimeInMillis();
-        Log.i("myMsg", "Next Sunday:" + dateFormat.format(nextSundayTime));
+        Log.i(Globals.LOG_TAG, "Next Sunday:" + dateFormat.format(nextSundayTime));
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(activity, getAlarmType(AlarmType.SUNDAY_START),
                 startIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -195,7 +195,7 @@ public class Alarm extends BroadcastReceiver {
         if(debug)
             delay = System.currentTimeMillis() + 20 * 1000;
 
-        Log.i("myMsg", "Set Stop:" + dateFormat.format(delay));
+        Log.i(Globals.LOG_TAG, "Set Stop:" + dateFormat.format(delay));
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(activity, getAlarmType(AlarmType.STOP),
                 stopIntent, PendingIntent.FLAG_UPDATE_CURRENT);
