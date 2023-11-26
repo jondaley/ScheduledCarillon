@@ -12,6 +12,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<AudioModel> songsList = new ArrayList<>();
-    TextView titleTv,currentTimeTv,totalTimeTv,seasonTv, timerTv;
+    TextView titleTv,currentTimeTv,totalTimeTv,seasonTv,timerTv,songSeasonTv;
     ImageView scheduleBtn, playBtn;
     AudioModel currentSong;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
@@ -47,7 +48,9 @@ public class MainActivity extends AppCompatActivity {
         scheduleBtn = findViewById(R.id.pause_schedule_play);
         playBtn = findViewById(R.id.play_immediately);
         seasonTv = findViewById(R.id.season_title);
+        songSeasonTv = findViewById(R.id.song_season_title);
         timerTv = findViewById(R.id.timers);
+
 
         String[] projection = {
                 MediaStore.Audio.Media.TITLE,
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 MediaStore.Audio.Media.DURATION
         };
 
-        seasonTv.setText(seasons.getSeasonName(seasons.getCurrentSeason()));
+        seasonTv.setText(seasons.getCurrentSeason().getName());
 
         String selection = MediaStore.Audio.Media.IS_MUSIC +" != 0";
 
@@ -65,11 +68,12 @@ public class MainActivity extends AppCompatActivity {
         while(cursor.moveToNext()){
             AudioModel songData = new AudioModel(
                     cursor.getString(1),
-                    cursor.getString(0),
-                    cursor.getString(2),
-                    Seasons.checkFilename((cursor.getString((1)))));
+                    (cursor.getString(0) == null ? "Unknown title" : cursor.getString(0)),
+                    (cursor.getString(2) == null ? "0" : cursor.getString(2)),
+                    Seasons.checkFilename(cursor.getString(1))
+                    );
 
-            if(new File(songData.getPath()).exists())
+            if(new File(songData.getPath()).exists() && songData.duration != "0")
                 songsList.add(songData);
         }
 
@@ -77,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
             titleTv.setText("No songs found on SD Card");
         }
         else{
+            Log.i(Globals.LOG_TAG, "Loaded " + songsList.size() + " songs");
             Alarm.setActivity(this);
             Alarm.scheduleDailyAlarm();
             Alarm.scheduleSundayAlarm();
@@ -122,25 +127,31 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             Random rand = new Random();
-            currentSong = songsList.get(rand.nextInt(songsList.size()));
+            int songId = rand.nextInt(songsList.size());
+            Log.i(Globals.LOG_TAG, "Song id is " + songId);
+            currentSong = songsList.get(songId);
         }
 
         if(bFirstTime){
             timerTv.setText("Next play time: " + Alarm.getNextScheduledPlayTime());
             titleTv.setText("No song selected yet");
             totalTimeTv.setText("00:00");
+            songSeasonTv.setText("");
+
         }
         else if(currentSong == null){
             timerTv.setText("Music paused");
             titleTv.setText("No song selected yet");
             totalTimeTv.setText("00:00");
+            songSeasonTv.setText("");
         }
         else{
             timerTv.setText("Next play time: " + Alarm.getNextScheduledPlayTime());
             titleTv.setText(currentSong.getTitle());
-            totalTimeTv.setText(convertToMMSS(currentSong.getDuration()));
+            totalTimeTv.setText( convertToMMSS(currentSong.getDuration()));
+            songSeasonTv.setText("Song Season: " + currentSong.getSeason().getName());
         }
-        seasonTv.setText("Season: " + seasons.getSeasonName(seasons.getCurrentSeason()));
+        seasonTv.setText("Season: " + seasons.getCurrentSeason().getName());
     }
 
 
@@ -152,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer){
-                if(isPlaying)
+                if(isPlaying && !isDisabled)
                     playNextSong();
             }
         });
@@ -169,11 +180,11 @@ public class MainActivity extends AppCompatActivity {
         if(isDisabled) {
             mediaPlayer.stop();
             scheduleBtn.setImageResource(R.drawable.ic_baseline_schedule_circle_outline_24);
-            setResourcesWithMusic(false);
         }
         else {
             scheduleBtn.setImageResource(R.drawable.ic_baseline_pause_circle_outline_24);
         }
+        setResourcesWithMusic(false);
     }
 
     private void immediate_play(){
@@ -194,9 +205,16 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("DefaultLocale")
     public static String convertToMMSS(String duration){
-        long millis = Long.parseLong(duration);
-        return String.format("%02d:%02d",
-                TimeUnit.MILLISECONDS.toMinutes(millis) % TimeUnit.HOURS.toMinutes(1),
-                TimeUnit.MILLISECONDS.toSeconds(millis) % TimeUnit.MINUTES.toSeconds(1));
+        try {
+            long millis = Long.parseLong(duration);
+            return String.format("%02d:%02d",
+                    TimeUnit.MILLISECONDS.toMinutes(millis) % TimeUnit.HOURS.toMinutes(1),
+                    TimeUnit.MILLISECONDS.toSeconds(millis) % TimeUnit.MINUTES.toSeconds(1));
+        }
+        catch(NumberFormatException e){
+            Log.e(Globals.LOG_TAG, "Bad number format: " + duration);
+            return "error";
+
+        }
     }
 }

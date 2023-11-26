@@ -19,11 +19,16 @@ public class MyMediaPlayer{
         instance.reset();
         try{
             instance.setDataSource(currentSong.getPath());
-            instance.prepare();
-            instance.start();
+            instance.prepareAsync();
+            instance.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    instance.start();
+                }
+            });
             return true;
         }
-        catch (IOException e){
+        catch (IOException | IllegalStateException e){
             e.printStackTrace();
         }
         return false;

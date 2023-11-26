@@ -55,32 +55,47 @@
         android:textSize="20sp"
         android:layout_below="@id/season_title"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:padding="50dp">
-
+        <TextView
+            android:id="@+id/current_time_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current Time: "
+            android:textSize="30sp"
+            android:layout_below="@id/song_season_title"
+            android:textColor="@color/black" />
         <TextView
             android:id="@+id/current_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:text="0:00"
             android:textSize="30sp"
+            android:layout_alignBaseline="@id/current_time_label"
+            android:layout_toRightOf="@id/current_time_label"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/total_time_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Time: "
+            android:textSize="30sp"
+            android:layout_below="@id/current_time_label"
             android:textColor="@color/black" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/total_time"
             android:text="0:00"
-            android:layout_alignParentEnd="true"
+            android:layout_alignBaseline="@id/total_time_label"
+            android:layout_toRightOf="@id/total_time_label"
             android:textColor="@color/black"
             android:textSize="30sp"/>
+
         <RelativeLayout
             android:layout_width="125dp"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
+            android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true">
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -95,5 +110,4 @@
                 android:id="@+id/play_immediately"
                 android:contentDescription="Play Immediately"/>
         </RelativeLayout>
-    </RelativeLayout>
 </RelativeLayout>
