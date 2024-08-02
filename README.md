@@ -1,12 +1,11 @@
 # Android Scheduled Carillon app
 
-This Android app serves as a simple way to play sound files from an external SD Card (doesn't use internet) and play them on a scheduled basis.  For my use, our church plays songs at 4:00PM every day for 15 minutes, and also on Sundays at 10:10AM.
+This Android app serves as a simple way to play sound files from an external SD Card (doesn't use internet) and play them on a scheduled basis.  For my use, our church plays songs at 4:10PM every day for 15 minutes, and also on Sundays at 10:10AM or 9:10AM as selected.
 You simply put mp3s or any sound file that the Android device understands on the SD Card and it will find them.  You can organize them in directories (see below for the "season", which will use the directory structure, but that isn't working yet).
 
 
 ## Things to do:
 - Allow users to configure the times that it plays and for how long
-- Our church has different meeting times in the summer, so the 10:10 needs to be changed to 9:10, so 
 - Look at the file/path names to determine what "season" the files should be used,
   e.g. play Christmas songs at Christmas time, Easter songs on Easter, etc.
   At all other times, play everything else.
