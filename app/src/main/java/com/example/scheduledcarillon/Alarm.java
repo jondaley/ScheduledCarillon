@@ -137,7 +137,7 @@ public class Alarm extends BroadcastReceiver {
         else {
             // Get the next 4PM timer
             cal.set(Calendar.HOUR_OF_DAY, 16);
-            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.MINUTE, 10);
             cal.set(Calendar.SECOND, 0);
             cal.set(Calendar.MILLISECOND, 0);
         }
