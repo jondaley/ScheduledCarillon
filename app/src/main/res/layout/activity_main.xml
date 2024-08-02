@@ -91,23 +91,35 @@
             android:textColor="@color/black"
             android:textSize="30sp"/>
 
-        <RelativeLayout
-            android:layout_width="125dp"
+    <RelativeLayout
+        android:layout_width="268dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/pause_schedule_play"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="Play/Pause"
+            android:src="@drawable/ic_baseline_pause_circle_outline_24" />
+
+        <ImageView
+            android:id="@+id/play_immediately"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/pause_schedule_play"
+            android:contentDescription="Play Immediately"
+            android:src="@drawable/ic_baseline_play_circle_outline_24" />
+
+        <Switch
+            android:id="@+id/play_nine_thiry"
+            android:layout_width="110dp"
+            android:layout_height="46dp"
             android:layout_centerInParent="true"
-            android:layout_alignParentBottom="true">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_pause_circle_outline_24"
-                android:id="@+id/pause_schedule_play"
-                android:contentDescription="Play/Pause"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_play_circle_outline_24"
-                android:layout_toRightOf="@id/pause_schedule_play"
-                android:id="@+id/play_immediately"
-                android:contentDescription="Play Immediately"/>
-        </RelativeLayout>
+            android:layout_toRightOf="@id/play_immediately"
+            android:text="9:30AM" />
+
+    </RelativeLayout>
+
 </RelativeLayout>

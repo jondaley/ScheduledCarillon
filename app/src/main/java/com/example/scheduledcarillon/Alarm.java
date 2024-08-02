@@ -164,11 +164,11 @@ public class Alarm extends BroadcastReceiver {
 
         if(debug) {
             // "Sunday" will occur in 1 minutes
-            cal.setTimeInMillis(System.currentTimeMillis() + 25 * 1000);
+            cal.setTimeInMillis(System.currentTimeMillis() + (activity.isNineThirtyChecked() ? 15 : 30) * 1000);
         }
         else {
             // Get the next Sunday morning timer
-            cal.set(Calendar.HOUR_OF_DAY, 10);
+            cal.set(Calendar.HOUR_OF_DAY, activity.isNineThirtyChecked() ? 9 : 10);
             cal.set(Calendar.MINUTE, 10);
             cal.set(Calendar.SECOND, 0);
             cal.set(Calendar.MILLISECOND, 0);

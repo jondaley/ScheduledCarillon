@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,11 +27,14 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<AudioModel> songsList = new ArrayList<>();
     TextView titleTv,currentTimeTv,totalTimeTv,seasonTv,timerTv,songSeasonTv;
-    ImageView scheduleBtn, playBtn;
+    ImageView scheduleBtn;
+    ImageView playBtn;
+    Switch morningSwitch;
+
     AudioModel currentSong;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
     Seasons seasons = new Seasons();
-    boolean isPlaying = false, isDisabled = false;
+    boolean isPlaying = false, isDisabled = false, isNineThirty = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +51,10 @@ public class MainActivity extends AppCompatActivity {
         totalTimeTv = findViewById(R.id.total_time);
         scheduleBtn = findViewById(R.id.pause_schedule_play);
         playBtn = findViewById(R.id.play_immediately);
+        morningSwitch = findViewById(R.id.play_nine_thiry);
         seasonTv = findViewById(R.id.season_title);
         songSeasonTv = findViewById(R.id.song_season_title);
         timerTv = findViewById(R.id.timers);
-
 
         String[] projection = {
                 MediaStore.Audio.Media.TITLE,
@@ -102,6 +106,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public boolean isNineThirtyChecked(){
+        return morningSwitch.isChecked();
+    }
     boolean checkPermission(){
         int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
         return result == PackageManager.PERMISSION_GRANTED;
