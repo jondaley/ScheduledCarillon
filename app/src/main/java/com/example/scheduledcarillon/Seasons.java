@@ -12,7 +12,8 @@ public class Seasons {
     public enum Season {
         CHRISTMAS ("Christmas"),
         EASTER ("Easter"),
-        GENERAL ("Regular");
+        GENERAL ("Regular"),
+        ERROR ("Error");
 
         private final String name;
         Season(String name){

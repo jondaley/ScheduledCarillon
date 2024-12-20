@@ -127,16 +127,29 @@ public class MainActivity extends AppCompatActivity {
         // TODO: do anything?
     }
 
+    AudioModel getNextSong(Seasons.Season season) {
+        Random rand = new Random();
+        for (int i = 0; i < Globals.SEARCH_ATTEMPTS; i++) {
+            int songId = rand.nextInt(songsList.size());
+            Log.i(Globals.LOG_TAG, "Song id is " + songId);
+            AudioModel testSong = songsList.get(songId);
+            Log.i(Globals.LOG_TAG, "Song name is " + testSong.title);
+            if(testSong.getSeason().getName() == season.getName())
+                return testSong;
+        }
+        return new AudioModel();
+    }
 
     void setResourcesWithMusic(boolean bFirstTime){
         if(isDisabled || bFirstTime) {
             currentSong = null;
         }
         else {
-            Random rand = new Random();
-            int songId = rand.nextInt(songsList.size());
-            Log.i(Globals.LOG_TAG, "Song id is " + songId);
-            currentSong = songsList.get(songId);
+            currentSong = getNextSong(seasons.getCurrentSeason());
+            if(currentSong.season == Seasons.Season.ERROR)
+                currentSong = getNextSong(Seasons.Season.GENERAL);
+            if(currentSong.season == Seasons.Season.ERROR)
+                currentSong = null;
         }
 
         if(bFirstTime){

@@ -8,6 +8,11 @@ public class AudioModel implements Serializable {
     String duration;
     Seasons.Season season;
 
+    public AudioModel() {
+        this.path = this.title = this.duration = "";
+        this.season = Seasons.Season.ERROR;
+    }
+
     public AudioModel(String path, String title, String duration, Seasons.Season season) {
         this.path = path;
         this.title = title;
