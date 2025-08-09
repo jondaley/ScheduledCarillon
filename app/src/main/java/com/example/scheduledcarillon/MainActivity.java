@@ -212,6 +212,7 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayer.stop();
         scheduleBtn.setImageResource(R.drawable.ic_baseline_pause_circle_outline_24);
         setResourcesWithMusic(false);
+        Alarm.scheduleStopAlarm(60);
         playMusic();
     }
     public void stop(boolean bImmediate){

@@ -64,14 +64,14 @@ public class Alarm extends BroadcastReceiver {
             Log.i(Globals.LOG_TAG, "Operation is: "+ newString);
             switch(getAlarmType(newString)) {
                 case DAILY_START:
-                    scheduleStopAlarm();
+                    scheduleStopAlarm(15);
                     scheduleDailyAlarm();
                     activity.setResourcesWithMusic(false);
                     activity.playMusic();
                     break;
 
                 case SUNDAY_START:
-                    scheduleStopAlarm();
+                    scheduleStopAlarm(15);
                     scheduleSundayAlarm();
                     activity.setResourcesWithMusic(false);
                     activity.playMusic();
@@ -183,13 +183,13 @@ public class Alarm extends BroadcastReceiver {
         alarmManager.setAlarmClock(ac, pendingIntent);
     }
 
-    protected static void scheduleStopAlarm() {
+    protected static void scheduleStopAlarm(Integer minutes) {
         AlarmManager alarmManager = (AlarmManager) activity.getSystemService(ALARM_SERVICE);
         Intent stopIntent = new Intent(activity, Alarm.class);
         stopIntent.putExtra("operation", getAlarmName(AlarmType.STOP));
 
         // we play for 15 minutes by default
-        long delay = System.currentTimeMillis() + 15 * 60 * 1000;
+        long delay = System.currentTimeMillis() + minutes * 60 * 1000;
 
         // Only wait 20 seconds in debug mode
         if(debug)
