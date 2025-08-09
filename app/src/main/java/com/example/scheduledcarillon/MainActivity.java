@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
             setResourcesWithMusic(true);
             scheduleBtn.setOnClickListener(v-> pause_schedule_play());
             playBtn.setOnClickListener(v-> immediate_play());
+            morningSwitch.setOnClickListener(v->on_nine_thirty_click());
         }
 
        MainActivity.this.runOnUiThread(new Runnable(){
@@ -193,6 +194,11 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayer.reset();
         setResourcesWithMusic(false);
         playMusic();
+    }
+
+    private void on_nine_thirty_click(){
+        Alarm.scheduleSundayAlarm();
+        setResourcesWithMusic(false);
     }
 
     private void pause_schedule_play(){
