@@ -92,7 +92,7 @@
             android:textSize="30sp"/>
 
     <RelativeLayout
-        android:layout_width="268dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true">
@@ -114,11 +114,24 @@
 
         <Switch
             android:id="@+id/play_nine_thiry"
-            android:layout_width="110dp"
+            android:layout_width="wrap_content"
             android:layout_height="46dp"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="24dp"
             android:layout_toRightOf="@id/play_immediately"
-            android:text="9:30AM" />
+            android:text="10:30AM" />
+
+        <TextView
+            android:id="@+id/nine_thrity_post"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/play_nine_thiry"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:text="9:30AM"
+            android:textColor="@color/black"
+            android:textSize="14dp" />
 
     </RelativeLayout>
 
